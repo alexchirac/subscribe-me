@@ -1,0 +1,55 @@
+rm -rf server subscriber *.o *.dSYM
+g++    -c -o common.o common.cpp
+g++     server.cpp common.o   -o server
+g++     subscriber.cpp common.o   -o subscriber
+rm -rf server subscriber *.o *.dSYM
+Compiling
+Starting the server
+Starting subscriber C1
+Generating one message for each topic
+Subscribing C1 to all topics
+Generating one message for each topic
+Disconnecting subscriber C1
+Generating one message for each topic
+Starting subscriber C1
+Starting another subscriber with ID C1
+Starting subscriber C2
+Subscribing C2 to topic a_non_negative_int
+Subscribing C2 to topics +/ec/100/pressure
+Subscribing C2 to topics upb/+/100/pressure
+Subscribing C2 to topics upb/ec/100/+
+Subscribing C2 to topics */pressure
+Subscribing C2 to topics upb/precis/elevator/*/floor
+Error: C2 output should contain [upb/precis/elevator/2/floor - INT - 0], is actually [127.0.0.1:33183 - upb/precis/elevator/2/floor - INT - -0]
+Subscribing C2 to topics upb/precis/*
+Subscribing C2 to topics *
+Error: C not subscribed to topic *
+Subscribing C2 to topics upb/+/100/+
+Error: C not subscribed to topic upb/+/100/+
+Subscribing C2 to topics upb/precis/100/+
+Subscribing C2 to topics upb/precis/100/*
+Disconnecting subscriber C2
+Error: client C2 not disconnected
+Stopping the server
+
+RESULTS
+-------
+compile...............................................passed
+server_start..........................................passed
+c1_start..............................................passed
+data_unsubscribed.....................................passed
+c1_subscribe_all......................................passed
+data_subscribed.......................................passed
+c1_stop...............................................passed
+c1_restart............................................passed
+data_no_clients.......................................passed
+same_id...............................................passed
+c2_start..............................................passed
+c2_subscribe..........................................passed
+c2_stop...............................................failed
+c2_subscribe_plus_wildcard............................passed
+c2_subscribe_star_wildcard............................failed
+c2_subscribe_compound_wildcard........................failed
+c2_subscribe_wildcard_set_inclusion...................passed
+quick_flow......................................not executed
+server_stop...........................................passed
